@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -129,45 +130,53 @@ button{
 }
 
 </style>
+
 </head>
 <body>
 
 <div class="container" id="app">
 
-    <h1>Smileyzeichner des Informatik-Profils ;)</h1>
-    <p>Als Informatik-Profil sammeln wir von Menschen erstellte Daten, um sie anschließend einer selbstprogrammierten KI als Trainingsmaterial zur Verfügung zu stellen. Vielen Dank für deine Unterstützung!</p>
+```
+<h1>Smileyzeichner des Informatik-Profils ;)</h1>
 
-    <div id="step">Schritt 1 von 4</div>
+<p>
+    Als Informatik-Profil sammeln wir von Menschen erstellte Daten,
+    um sie anschließend einer selbstprogrammierten KI als Trainingsmaterial
+    zur Verfügung zu stellen. Vielen Dank für deine Unterstützung!
+</p>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
+<div id="step">Schritt 1 von 4</div>
 
-    <div id="task">
-        Zeichne einen fröhlichen Smiley
-    </div>
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
 
-    <div class="canvas-wrapper">
-        <canvas id="canvas" width="500" height="500"></canvas>
-    </div>
+<div id="task">
+    Zeichne einen fröhlichen Smiley
+</div>
 
-    <div class="buttons">
-        <button class="clear-btn" onclick="undoLastStroke()">
-            ↶ Rückgängig
-        </button>
-        
-        <button class="clear-btn" onclick="clearCanvas()">
-            Löschen
-        </button>
+<div class="canvas-wrapper">
+    <canvas id="canvas" width="500" height="500"></canvas>
+</div>
 
-        <button class="save-btn" onclick="saveAndNext()">
-            Speichern & Weiter
-        </button>
-    </div>
+<div class="buttons">
+    <button class="clear-btn" onclick="undoLastStroke()">
+        ↶ Rückgängig
+    </button>
 
-    <div class="footer">
-        Die Zeichnung wird als PNG heruntergeladen.
-    </div>
+    <button class="clear-btn" onclick="clearCanvas()">
+        Löschen
+    </button>
+
+    <button class="save-btn" onclick="saveAndNext()">
+        Speichern & Weiter
+    </button>
+</div>
+
+<div class="footer">
+    Die Zeichnung wird als PNG heruntergeladen.
+</div>
+```
 
 </div>
 
@@ -305,11 +314,11 @@ function clearCanvas(){
     currentStroke = null;
 
     ctx.clearRect(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-);
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 }
 
 function undoLastStroke(){
@@ -323,41 +332,51 @@ function undoLastStroke(){
 
 function downloadCurrentPNG(){
 
-const exportCanvas =
-    document.createElement("canvas");
+    const exportCanvas =
+        document.createElement("canvas");
 
-exportCanvas.width = canvas.width;
-exportCanvas.height = canvas.height;
+    exportCanvas.width = canvas.width;
+    exportCanvas.height = canvas.height;
 
-const exportCtx =
-    exportCanvas.getContext("2d");
+    const exportCtx =
+        exportCanvas.getContext("2d");
 
-// Weißer Hintergrund
-exportCtx.fillStyle = "#ffffff";
-exportCtx.fillRect(
-    0,
-    0,
-    exportCanvas.width,
-    exportCanvas.height
-);
+    exportCtx.fillStyle = "#ffffff";
+    exportCtx.fillRect(
+        0,
+        0,
+        exportCanvas.width,
+        exportCanvas.height
+    );
 
-// Zeichnung darüber legen
-exportCtx.drawImage(
-    canvas,
-    0,
-    0
-);
+    exportCtx.drawImage(
+        canvas,
+        0,
+        0
+    );
 
-const link =
-    document.createElement("a");
+    const now = new Date();
 
-link.download =
-    tasks[current].name + ".png";
+    const date =
+        now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2, "0") + "-" +
+        String(now.getDate()).padStart(2, "0");
 
-link.href =
-    exportCanvas.toDataURL("image/png");
+    const time =
+        String(now.getHours()).padStart(2, "0") + "-" +
+        String(now.getMinutes()).padStart(2, "0") + "-" +
+        String(now.getSeconds()).padStart(2, "0");
 
-link.click();
+    const filename =
+        `${tasks[current].name}_${date}_${time}-${now.getMilliseconds()}.png`;
+
+    const link =
+        document.createElement("a");
+
+    link.download = filename;
+    link.href = exportCanvas.toDataURL("image/png");
+
+    link.click();
 }
 
 function updateUI(){
@@ -371,7 +390,7 @@ function updateUI(){
 
     document.getElementById("progressBar")
         .style.width =
-        ((current / tasks.length) * 100) + "%";
+        (((current + 1) / tasks.length) * 100) + "%";
 }
 
 function saveAndNext(){
@@ -403,7 +422,6 @@ function saveAndNext(){
 }
 
 function restartSurvey(){
-
     location.reload();
 }
 
